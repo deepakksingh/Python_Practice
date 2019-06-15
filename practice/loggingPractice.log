@@ -1,0 +1,18 @@
+2019-05-29 13:15:54,420:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
+2019-05-29 13:15:54,421:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
+2019-05-29 13:15:59,937:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
+2019-05-29 13:15:59,937:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
+2019-05-29 13:16:28,518:DEBUG:+++===+++ at line 8 of loggingPractice.py
+2019-05-29 13:16:28,518:DEBUG:Pizza created:artichoke ($15) at line 15 of loggingPractice.py
+2019-05-29 13:16:28,518:DEBUG:Made 1 artichoke pizza(s) at line 20 of loggingPractice.py
+2019-05-29 13:16:28,518:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
+2019-05-29 13:16:28,518:DEBUG:Pizza created:margherita ($12) at line 15 of loggingPractice.py
+2019-05-29 13:16:28,518:DEBUG:Made 1 margherita pizza(s) at line 20 of loggingPractice.py
+2019-05-29 13:16:28,518:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
+2019-05-29 13:18:34,883:DEBUG:+++===+++ at line 8 of loggingPractice.py
+2019-05-29 13:18:34,883:DEBUG:Pizza created:artichoke ($15) at line 15 of loggingPractice.py
+2019-05-29 13:18:34,883:DEBUG:Made 1 artichoke pizza(s) at line 20 of loggingPractice.py
+2019-05-29 13:18:34,883:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
+2019-05-29 13:18:34,883:DEBUG:Pizza created:margherita ($12) at line 15 of loggingPractice.py
+2019-05-29 13:18:34,884:DEBUG:Made 1 margherita pizza(s) at line 20 of loggingPractice.py
+2019-05-29 13:18:34,884:INFO:Ate 1 pizza(s) at line 24 of loggingPractice.py
