@@ -205,3 +205,95 @@ class Fraction(object):
 
 x = Fraction(8,24)
 print(x)
+
+# class methods vs static methods vs instance methods
+
+class Pet:
+    _class_info = "pet animals"
+
+    def about(self):
+        print("This class is about " + self._class_info + "!")
+
+class Dog(Pet):
+    _class_info = "man's best friends"
+
+class Cat(Pet):
+    _class_info = 'all kinds of cats'
+
+p = Pet()
+p.about()
+
+d = Dog()
+d.about()
+
+c = Cat()
+c.about()
+
+# Here it looks like it works well, but we have to create instance of each class to access the about() method
+
+# It would be better if we could access the about() by Pet.about(), Dog.about(), Cat.about()
+
+# We can do this by using the following:
+Dog.about(d)
+# but again we have to instanciate the classes.
+
+# So can we use @staticmethod for the about() method
+
+class Pet:
+    _class_info = "pet animals"
+
+    @staticmethod
+    def about():
+        print("This class is about " + Pet._class_info + "!")
+
+class Dog(Pet):
+    _class_info = "man's best friends"
+
+class Cat(Pet):
+    _class_info = "all kinds of cats"
+
+
+Pet.about()
+Dog.about()
+Cat.about()
+
+# The output:
+'''
+>>> Pet.about()
+This class is about pet animals!
+>>> Dog.about()
+This class is about pet animals!
+>>> Cat.about()
+This class is about pet animals!
+'''
+
+# There is no way to differentiate betweent the class Pet and its subclasses Dog and Cat.
+# The problem is that the method about() doesn't know that it has been called via the Pet, the Dog
+# or the Cat class.
+
+# Solution: Use class method
+
+class Pet:
+    _class_info = "pet animals"
+
+    @classmethod
+    def about(cls):
+        print("This class is about " + cls._class_info + "!")
+
+class Dog(Pet):
+    _class_info = "man's best friends"
+
+class Cat(Pet):
+    _class_info = "all kinds of cats"
+
+Pet.about()
+Dog.about()
+Cat.about()
+
+'''
+Remarks:
+Static methods are useful when we are not subclassing the given class
+Class methods are useful if we want specific action based on subclasses but 
+invoking the method using the class name.
+'''
+    
