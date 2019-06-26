@@ -78,3 +78,62 @@ f"{new_comedian}"
 # in including the conversion flag !r
 
 f"{new_comedian!r}"
+
+# Multiline f-strings
+name = "Eric"
+profession = 'comedian'
+affiliation = 'Monty Python'
+
+message = (
+    f"Hi {name}."
+    f"You are a {profession}"
+    f"YOU WERE IN {affiliation}"
+)
+message
+
+# for multiline f-strings to work we have to place an f in each line
+
+message = (
+    f"Hi {name}."
+    "You are a {profession}"
+    "You were in {affiliation}."
+)
+message
+
+# we can also use line-breaks for multiline f-strings
+message =   f"Hi {name}." \
+            f"You are a {profession}." \
+            f"You were in {affiliation}."
+
+message
+
+#If we use """ we get this
+message = f'''
+        Hi{name}.
+        You are a {profession}.
+        You were in {affiliation}.
+        '''
+message
+
+'''
+f-strings are faster than both %-formatting and str.format().
+f-strings are expressions evaluated at runtime rather than constant values.
+'''
+
+comedian = {
+    'name' : 'Eric Idle',
+    'age': 74
+}
+
+f"The comedian is {comedian['name']}, aged {comedian['age']}'"
+
+# To introduce braces to appear in your string, you must use double braces
+
+f"{{74}}"
+
+f"{{{74}}}"
+
+f"{{{{74}}}}"
+
+# Expressions should not include comments using the # symbol
+f"Eric is {2*37 #Oh my!}."
