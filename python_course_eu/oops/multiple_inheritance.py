@@ -248,7 +248,191 @@ d.m()       # this will print 'm of C called'
 
 '''
 Multiple inheritance with old-style classes is governed by two rules:
-depth-first and then left-to-right.
+depth-first and then left-to-right (Method-Resolution-Order)
 If we change the header line of class A to "class A(object):", we will have the same behavior in both 
 python 2 and python 3 versions.
 '''
+
+
+class A:
+    def m(self):
+        print("m of A called")
+
+class B(A):
+    def m(self):
+        print("m of B called")
+
+class C(A):
+    def m(self):
+        print("m of C called")
+
+class D(B, C):
+    def m(self):
+        print("m of D called")
+
+x = D()
+x.m()
+B.m(x)
+C.m(x)
+A.m(x)
+
+# If we want the method m of D to execute the code of m of B, C and A as well, we do it as follows.
+class D(B, C):
+    def m(self):
+        print("m of D called")
+        B.m(self)
+        C.m(self)
+        A.m(self)
+
+x = D()
+x.m()
+
+# But if the class B and C also call A.m(self) in their m() method, the result will be as follows:
+
+class A:
+    def m(self):
+        print("m of A called")
+
+class B(A):
+    def m(self):
+        print("m of B called")
+        A.m(self)
+
+class C(A):
+    def m(self):
+        print("m of C called")
+        A.m(self)
+
+class D(B, C):
+    def m(self):
+        print("m of D called")
+        B.m(self)
+        C.m(self)
+
+x = D()
+x.m()
+
+# Solution: split the methods m of B and C in 2 methods.
+'''
+The first method, called _m consists of the specific code for B and C and the other method is still called
+m, but consists now of a call self._m() and a call A.m(self). Now m of D consists of the calls B._m(self)
+C._m(self) and A.m(self).
+'''
+
+class A:
+    def m(self):
+        print("m of A called")
+
+class B(A):
+    def _m(self):
+        print("m of B called")
+    
+    def m(self):
+        self._m()
+        A.m(self)
+
+class C(A):
+    def _m(self):
+        print("m of C called")
+    
+    def m(self):
+        self._m()
+        A.m(self)
+
+class D(B, C):
+    def m(self):
+        print("m of D called")
+        B._m(self)
+        C._m(self)
+        A.m(self)
+
+
+x = D()
+x.m()
+# The above solution works but it's not an elegant solution.
+
+# The optimal way to solve the problem, which is the "super" pythonic way, consists
+# of calling the super function
+
+class A:
+    def m(self):
+        print("m of A called")
+
+class B(A):
+    def m(self):
+        print("m of B called")
+        super().m()
+
+class C(A):
+    def m(self):
+        print("m of C called")
+        super().m()
+
+class D(B, C):
+    def m(self):
+        print("m of D called")
+        super().m()
+
+x = D()
+x.m()
+
+'''
+The super function is often used when instances are initialized with the __init__ method
+'''
+
+class A:
+    def __init__(self):
+        print("A.__init__")
+
+class B(A):
+    def __init__(self):
+        print("B.__init__")
+        super().__init__()
+
+class C(A):
+    def __init__(self):
+        print("C.__init__")
+        super().__init__()
+
+class D(B, C):
+    def __init__(self):
+        print("D.__init__")
+        super().__init__()
+
+d = D()
+c = C()
+b = B()
+a = A()
+
+'''
+But how does the super function decide which class has to be used?
+It resolves it using MRO-Method Resolution Order.
+MRO : based on the "C3 superclass linearisation" algorithm
+This is called as linearisation, because the tree structure is broken down into a linear order.
+'''
+D.mro()
+C.mro()
+B.mro()
+A.mro()
+
+
+# Polymorphism
+'''
+The ability to present the same interface for differing underlying forms.
+Polymorphic functions or methods can be applied to arguments of different types, and they can behave
+differently depending on the type of the arguments to which they are applied.
+We can also define the same function with a varying number of parameters.
+'''
+
+def f(x, y):
+    print("values:", x, y)
+
+f(42, 43)
+f(43.5,60)
+
+'''
+Here we can call f(...) with various types of arguments but in a typed programming language like
+Java of C++, we would have to overload f to implement the various type combinations.
+'''
+
+# NOTE: python is implicity polymorphic.
