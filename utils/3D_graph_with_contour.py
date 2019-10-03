@@ -2,19 +2,46 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-x = np.random.randn(1,1000)
-y = np.random.randn(1,1000)
-z = x**2 + y**2 + 2*x + 2*y
 
-# x_val, y_val = np.meshgrid(x,y)
-# z_val = x_val**2+ y_val**2
-# plt.contour(x_val, y_val,z_val)
-# plt.show()
 
-ax.plot_surface(x, y, z)
-plt.show()
+def plot3d_with_contour(x, y, funct, x_label = 'x', y_label = 'y', z_label = 'z', cmap='coolwarm'):
 
-# plt.contourf(x_val, y_val, z_val)
-# plt.show()
+    '''
+    Plots a 3d map with contour
+    Input:  x : range of values for x-axis
+            y : range of values for y-axis
+            x_label : label values for x-axis
+            y_label : label values for x-axis
+            z_label : label values for x-axis
+    Output: 3d figure of the surface along with the filled contourf
+    '''
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
+
+    X, Y = np.meshgrid(x, y)
+    Z = funct(X, Y)
+
+    surf_obj = ax.plot_surface(X,Y,Z, cmap=cmap)
+    fig.colorbar(surf_obj)
+    # plt.show()
+
+    z_min = np.min(Z)
+
+    ax.contourf(X,Y,Z, offset=z_min, cmap=cmap)
+    plt.show()
+
+
+
+def funct(x, y):
+    return x**3 + y**2
+
+if __name__ == '__main__':
+    x = np.linspace(-5, 5, 100)
+    y = np.linspace(-5, 5, 100)
+
+    plot3d_with_contour(x, y, funct)
+
+    print(funct(1,2))
