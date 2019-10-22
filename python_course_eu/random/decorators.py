@@ -181,7 +181,7 @@ e.g a modified function, which is bound to the name used in the definition.
 '''
 
 print("#"*10)
-#A generaalized version of the function_wrapper, which accepts functions with arbitrary parameters:
+#A generalized version of the function_wrapper, which accepts functions with arbitrary parameters:
 
 from random import random, randint, choice
 def our_decorator(func):
@@ -209,6 +209,7 @@ print("#"*10)
 
 def arg_test_natural_number(f):
     def helper(x):
+        print("checking for non-negative arguments")
         if type(x) == int and x > 0:
             return f(x)
         else:
@@ -222,8 +223,8 @@ def factorial(n):
     else:
         return n*factorial(n-1)
 
-for i in range(1,10):
-    print(i, factorial(i))
+# for i in range(1,10):
+#     print(i, factorial(i))
 
 # print(factorial(-1))
 
@@ -281,10 +282,35 @@ print(mul1.calls)
 print("#"*10)
 
 #Decorators with Parameters
+def evening_greeting(func):
+    def function_wrapper(x):
+        print("Good Evening!," + func.__name__)
+        func(x)
+
+    return function_wrapper
+
+def morning_greeting(func):
+    def function_wrapper(x):
+        print("Good Morning!," + func.__name__)
+        func(x)
+
+    return function_wrapper
+
+@evening_greeting               #foo = evening_greeting(foo)
+def foo(x):
+    print(x)
+
+foo("deepak")
+
+
+'''
+Above we have used 2 decorators but only their message changes, we can pass even pass parameter to a decorator to reuse the function
+'''
+
 def greeting(expr):
     def greeting_decorator(func):
         def function_wrapper(x):
-            print(expr + ", " + func.__name__ + " returns")
+            print(f"{expr}, {func.__name__} returns")
             func(x)
         return function_wrapper
     return greeting_decorator
@@ -293,4 +319,41 @@ def greeting(expr):
 def foo(x):
     print(x)
 
+#if we do not want to use the @ decorator syntax, we can do it with function call
+def custom_greeting_msg(greet_msg):
+    def greeting_decorator(func):
+        def function_wrapper(x):
+            print(greet_msg)
+            func(x)
+            
+        return function_wrapper
+    return greeting_decorator
+
+
+def foo(x):
+    print(x*2)
+
+hola_greeter = custom_greeting_msg("Hola!!!")
+
+foo = hola_greeter(foo)
 foo(42)
+
+namaste_greeter = custom_greeting_msg("namaste!!!")
+foo = namaste_greeter(foo)
+foo(42)
+
+'''
+If we have a decorator defined in a different module then the attributes like __name__, __doc__, __module__ will be overridden
+To overcome this we have to save the values in the decorator definition itself.
+'''
+from greeting_decorator import greeting
+
+@greeting
+def f(x):
+    """just a random function definition"""
+    return x*4
+
+f(10)
+print(f"function name: {f.__name__}")
+print(f"function doc: {f.__doc__}")
+print(f"module name: {f.__module__}")
