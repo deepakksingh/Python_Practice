@@ -42,3 +42,32 @@ fib = Fibonacci()
 for i in range(15):
     print(fib(i), end = " ")
 
+
+print("#"*10)
+
+def decorator1(f):
+    def helper():
+        print("decorating,",f.__name__)
+        f()
+    return helper
+
+@decorator1
+def foo1():
+    print("inside foo()")
+
+foo1()
+
+#the above decorator1 can be defined as a class too, shown below
+class decorator2:
+    def __init__(self, f):
+        self.f = f
+
+    def __call__(self):
+        print("decorating,",self.f.__name__)
+        self.f()
+
+@decorator2             #foo = decorator2(foo)
+def foo():
+    print("inside food()")
+
+foo()
